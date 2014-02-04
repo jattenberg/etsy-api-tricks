@@ -6,8 +6,8 @@ import json
 # i stored my api key as a environmental variable
 key = os.environ['ETSY_API_KEY']
 
-def get_description_for_listing_id(listing_id):
-    suffix = "?region=US&language=en&currency=USD&fields=description&api_key="
+def get_description_and_image_for_listing_id(listing_id):
+    suffix = "?region=US&language=en&currency=USD&fields=description&includes=Images&api_key="
     base = "https://openapi.etsy.com/v2/apps/listings/"
     url = base + str(listing_id) + suffix + key
     r = requests.get(url)
@@ -18,7 +18,7 @@ def get_description_for_listing_id(listing_id):
     else:
         return None
 
-def get_descriptions_for_file(filename):
+def get_descriptions_and_images_for_file(filename):
 
     ## assuming one listing id per line and nothing else
     with open(filename, 'r') as file:
@@ -29,9 +29,10 @@ def get_descriptions_for_file(filename):
                 print des
 
 
-
 # example for getting a single description
-print get_description_for_listing_id(176554532)
+results = get_description_and_image_for_listing_id(176554532)
+print results['Images']
+print results['description']
 
 
 
